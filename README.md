@@ -1,2 +1,2 @@
 # OpenWrt-14.07-Baririer-Breaker
-TP-Link TL-WDR4300
+Target : TP-Link TL-WDR4300
