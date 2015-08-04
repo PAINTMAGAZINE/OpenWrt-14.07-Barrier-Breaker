@@ -1,0 +1,8 @@
+Package: kmod-spi-gpio-custom
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-spi-bitbang, kmod-spi-gpio, kmod-spi-dev
+Source: package/kernel/spi-gpio-custom
+Section: kernel
+Architecture: ar71xx
+Installed-Size: 2461
+Description:  Kernel module for register a custom spi-gpio platform device.

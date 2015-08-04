@@ -1,0 +1,10 @@
+Package: kmod-ipt-nat6
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-ipt-core, kmod-ipt-conntrack, kmod-ipt-core, kmod-ipt-nat, kmod-ipt-core, kmod-ip6tables
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 6502
+Description:  Netfilter (IPv6) kernel modules for NAT targets

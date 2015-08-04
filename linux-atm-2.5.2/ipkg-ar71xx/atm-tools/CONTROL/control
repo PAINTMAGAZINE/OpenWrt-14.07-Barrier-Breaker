@@ -1,0 +1,8 @@
+Package: atm-tools
+Version: 2.5.2-5
+Depends: libc, linux-atm
+Source: package/network/utils/linux-atm
+Section: net
+Architecture: ar71xx
+Installed-Size: 15188
+Description:  This package contains the Linux ATM tools.

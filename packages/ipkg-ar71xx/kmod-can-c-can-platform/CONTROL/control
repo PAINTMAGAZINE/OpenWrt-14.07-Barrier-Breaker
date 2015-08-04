@@ -1,0 +1,15 @@
+Package: kmod-can-c-can-platform
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-can-c-can, kmod-can
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 2463
+Description:  This driver adds support for the C_CAN/D_CAN chips connected
+ to the "platform bus" (Linux abstraction for directly to the
+ processor attached devices) which can be found on various
+ boards from ST Microelectronics (http://www.st.com) like the
+ SPEAr1310 and SPEAr320 evaluation boards & TI (www.ti.com)
+ boards like am335x, dm814x, dm813x and dm811x.

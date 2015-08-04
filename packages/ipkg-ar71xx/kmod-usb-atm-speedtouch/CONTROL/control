@@ -1,0 +1,10 @@
+Package: kmod-usb-atm-speedtouch
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-usb-atm
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 6650
+Description:  Kernel support for SpeedTouch USB ADSL modems

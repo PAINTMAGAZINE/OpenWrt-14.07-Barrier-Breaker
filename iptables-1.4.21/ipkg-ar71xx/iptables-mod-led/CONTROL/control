@@ -1,0 +1,12 @@
+Package: iptables-mod-led
+Version: 1.4.21-1
+Depends: libc, iptables, kmod-ipt-led
+Source: package/network/utils/iptables
+Section: net
+Architecture: ar71xx
+Installed-Size: 2036
+Description:  iptables extension for triggering a LED.
+ 
+ Targets:
+ - LED
+ 

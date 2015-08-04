@@ -1,0 +1,10 @@
+Package: kmod-input-polldev
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-input-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 1846
+Description:  Kernel module for support of polled input devices

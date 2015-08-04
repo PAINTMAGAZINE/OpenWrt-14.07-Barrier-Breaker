@@ -1,0 +1,10 @@
+Package: kmod-leds-wndr3700-usb
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83)
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 974
+Description:  Kernel module for the USB LED on the NETGEAR WNDR3700 board.

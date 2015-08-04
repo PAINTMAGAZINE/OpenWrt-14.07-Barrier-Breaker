@@ -1,0 +1,11 @@
+Package: kmod-ata-pdc202xx-old
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-ata-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 2613
+Description:  This option enables support for the Promise 20246, 20262, 20263,
+ 20265 and 20267 adapters

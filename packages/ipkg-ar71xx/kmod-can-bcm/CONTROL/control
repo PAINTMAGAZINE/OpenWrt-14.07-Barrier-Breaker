@@ -1,0 +1,12 @@
+Package: kmod-can-bcm
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-can
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 8253
+Description:  The Broadcast Manager offers content filtering, timeout monitoring,
+ sending of RTR frames, and cyclic CAN messages without permanent user
+ interaction.

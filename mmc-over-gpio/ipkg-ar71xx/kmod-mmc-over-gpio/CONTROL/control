@@ -1,0 +1,8 @@
+Package: kmod-mmc-over-gpio
+Version: 3.10.49-4
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-mmc-spi, kmod-spi-gpio-old, kmod-fs-configfs
+Source: package/kernel/mmc_over_gpio
+Section: kernel
+Architecture: ar71xx
+Installed-Size: 4365
+Description:  Support for driving an MMC/SD card over GPIO pins via SPI.

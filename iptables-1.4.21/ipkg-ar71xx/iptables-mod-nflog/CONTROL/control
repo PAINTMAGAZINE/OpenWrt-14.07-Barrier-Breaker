@@ -1,0 +1,12 @@
+Package: iptables-mod-nflog
+Version: 1.4.21-1
+Depends: libc, iptables, kmod-nfnetlink-log, kmod-ipt-nflog
+Source: package/network/utils/iptables
+Section: net
+Architecture: ar71xx
+Installed-Size: 1847
+Description:  iptables extension for user-space logging via NFNETLINK.
+ 
+ Includes:
+ - libxt_NFLOG
+ 

@@ -1,0 +1,10 @@
+Package: kmod-gpio-mcp23s08
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-i2c-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 4145
+Description:  Kernel module for Microchip MCP23xxx SPI/I2C I/O expander

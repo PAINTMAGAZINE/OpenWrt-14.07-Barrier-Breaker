@@ -1,0 +1,8 @@
+Package: libiptc
+Version: 1.4.21-1
+Depends: libc, libip4tc, libip6tc
+Source: package/network/utils/iptables
+Section: libs
+Architecture: ar71xx
+Installed-Size: 1097
+Description:  IPv4/IPv6 firewall - shared libiptc library (compatibility stub)

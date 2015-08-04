@@ -1,0 +1,8 @@
+Package: atm-aread
+Version: 2.5.2-5
+Depends: libc, linux-atm
+Source: package/network/utils/linux-atm
+Section: net
+Architecture: ar71xx
+Installed-Size: 2021
+Description:  Linux ATM tool aread.

@@ -1,0 +1,10 @@
+Package: kmod-video-gspca-stk014
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-video-gspca-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 3528
+Description:  The Syntek DV4000 (STK014) USB Camera Driver (stk014) kernel module

@@ -1,0 +1,8 @@
+Package: kmod-i2c-gpio-custom
+Version: 3.10.49-2
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-i2c-core, kmod-i2c-gpio
+Source: package/kernel/i2c-gpio-custom
+Section: kernel
+Architecture: ar71xx
+Installed-Size: 1633
+Description:  Kernel module for register a custom i2c-gpio platform device.

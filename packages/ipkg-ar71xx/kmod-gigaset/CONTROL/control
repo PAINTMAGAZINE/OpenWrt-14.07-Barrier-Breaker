@@ -1,0 +1,13 @@
+Package: kmod-gigaset
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-isdn4linux, kmod-lib-crc-ccitt, kmod-usb-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 49988
+Description:  This driver supports the Siemens Gigaset SX205/255 family of
+ ISDN DECT bases, including the predecessors Gigaset 3070/3075
+ and 4170/4175 and their T-Com versions Sinus 45isdn and Sinus
+ 721X.

@@ -1,0 +1,16 @@
+Package: kmod-sky2
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83)
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 25786
+Description:  This driver supports Gigabit Ethernet adapters based on the
+ Marvell Yukon 2 chipset:
+ Marvell 88E8021/88E8022/88E8035/88E8036/88E8038/88E8050/88E8052/
+ 88E8053/88E8055/88E8061/88E8062, SysKonnect SK-9E21D/SK-9S21
+ 
+ There is companion driver for the older Marvell Yukon and
+ Genesis based adapters: skge.

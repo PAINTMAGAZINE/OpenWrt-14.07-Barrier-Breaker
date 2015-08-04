@@ -1,0 +1,9 @@
+Package: spidev-test
+Version: 3.10.49-3.10.49
+Depends: libc, kmod-spi-dev
+Source: package/utils/spidev_test
+Section: utils
+Maintainer: Florian Fainelli <florian@openwrt.org>
+Architecture: ar71xx
+Installed-Size: 2492
+Description:  SPI testing utility.

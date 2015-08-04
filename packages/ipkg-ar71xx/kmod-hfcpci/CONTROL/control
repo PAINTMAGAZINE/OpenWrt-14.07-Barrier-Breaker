@@ -1,0 +1,11 @@
+Package: kmod-hfcpci
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-misdn
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 14792
+Description:  Kernel modules for Cologne AG's HFC pci cards (single port)
+ using the mISDN V2 stack

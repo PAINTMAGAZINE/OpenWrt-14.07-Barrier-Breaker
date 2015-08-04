@@ -1,0 +1,10 @@
+Package: kmod-w1-slave-ds2431
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-w1
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 2013
+Description:  Kernel module for 1-wire 1kb EEPROM (DS2431)

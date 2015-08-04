@@ -1,0 +1,8 @@
+Package: kmod-spi-ks8995
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83)
+Source: package/kernel/spi-ks8995
+Section: kernel
+Architecture: ar71xx
+Installed-Size: 2317
+Description:  Kernel module for Micrel/Kendin KS8995 ethernet switch

@@ -1,0 +1,10 @@
+Package: kmod-video-gspca-tv8532
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-video-gspca-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 2166
+Description:  The TV8532 USB Camera Driver (tv8532) kernel module

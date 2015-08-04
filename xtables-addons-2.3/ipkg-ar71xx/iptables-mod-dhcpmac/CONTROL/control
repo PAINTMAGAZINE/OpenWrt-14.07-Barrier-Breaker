@@ -1,0 +1,9 @@
+Package: iptables-mod-dhcpmac
+Version: 2.3-1
+Depends: libc, iptables, kmod-ipt-dhcpmac
+Source: package/network/utils/xtables-addons
+Section: net
+Maintainer: Jo-Philipp Wich <jow@openwrt.org>
+Architecture: ar71xx
+Installed-Size: 1954
+Description:  DHCPMAC iptables extension

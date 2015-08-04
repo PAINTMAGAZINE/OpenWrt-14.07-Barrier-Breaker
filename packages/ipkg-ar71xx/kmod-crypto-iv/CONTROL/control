@@ -1,0 +1,10 @@
+Package: kmod-crypto-iv
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-crypto-manager, kmod-crypto-rng, kmod-crypto-wq, kmod-crypto-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 3574
+Description:  CryptoAPI initialization vectors

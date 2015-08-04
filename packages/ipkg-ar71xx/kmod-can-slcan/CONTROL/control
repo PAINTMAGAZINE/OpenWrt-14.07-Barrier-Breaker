@@ -1,0 +1,12 @@
+Package: kmod-can-slcan
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-can
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 4205
+Description:  CAN driver for several 'low cost' CAN interfaces that are attached
+ via serial lines or via USB-to-serial adapters using the LAWICEL
+ ASCII protocol.

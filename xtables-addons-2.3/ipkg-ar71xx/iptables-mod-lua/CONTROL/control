@@ -1,0 +1,9 @@
+Package: iptables-mod-lua
+Version: 2.3-1
+Depends: libc, iptables, kmod-ipt-lua
+Source: package/network/utils/xtables-addons
+Section: net
+Maintainer: Jo-Philipp Wich <jow@openwrt.org>
+Architecture: ar71xx
+Installed-Size: 2609
+Description:  Lua PacketScript iptables extension

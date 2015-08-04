@@ -1,0 +1,9 @@
+Package: iptables-mod-dnetmap
+Version: 2.3-1
+Depends: libc, iptables, kmod-ipt-dnetmap
+Source: package/network/utils/xtables-addons
+Section: net
+Maintainer: Jo-Philipp Wich <jow@openwrt.org>
+Architecture: ar71xx
+Installed-Size: 2725
+Description:  DNETMAP iptables extension

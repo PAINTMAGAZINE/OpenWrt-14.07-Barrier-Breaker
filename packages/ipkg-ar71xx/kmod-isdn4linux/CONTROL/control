@@ -1,0 +1,10 @@
+Package: kmod-isdn4linux
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-ppp
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 87635
+Description:  This driver allows you to use an ISDN adapter for networking

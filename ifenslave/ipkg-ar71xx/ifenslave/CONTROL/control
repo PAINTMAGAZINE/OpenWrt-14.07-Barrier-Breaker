@@ -1,0 +1,8 @@
+Package: ifenslave
+Version: 3.10.49-1
+Depends: libc, kmod-bonding
+Source: package/network/utils/ifenslave
+Section: net
+Architecture: ar71xx
+Installed-Size: 5944
+Description:  ifenslave is needed to add/remove interfaces to/from ethernet bond devices.

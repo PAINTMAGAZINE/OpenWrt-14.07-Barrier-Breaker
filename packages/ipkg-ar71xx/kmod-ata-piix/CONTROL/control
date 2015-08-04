@@ -1,0 +1,11 @@
+Package: kmod-ata-piix
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-ata-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 5728
+Description:  SATA support for Intel ICH5/6/7/8 series host controllers and
+ PATA support for Intel ESB/ICH/PIIX3/PIIX4 series host controllers

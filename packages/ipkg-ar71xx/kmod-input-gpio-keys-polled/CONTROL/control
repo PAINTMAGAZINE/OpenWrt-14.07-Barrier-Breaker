@@ -1,0 +1,10 @@
+Package: kmod-input-gpio-keys-polled
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-input-polldev, kmod-input-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 2462
+Description:  Kernel module for support polled GPIO keys input device

@@ -1,0 +1,11 @@
+Package: kmod-can-usb-8dev
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-can, kmod-usb-core
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 5730
+Description:  This driver supports the USB2CAN interface
+ from 8 devices (http://www.8devices.com).

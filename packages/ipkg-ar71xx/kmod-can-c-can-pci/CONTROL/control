@@ -1,0 +1,11 @@
+Package: kmod-can-c-can-pci
+Version: 3.10.49-1
+Depends: kernel (=3.10.49-1-7db2f7bc90d82666e1960da51643eb83), kmod-can-c-can, kmod-can
+Source: package/kernel/linux
+License: GPLv2
+Section: kernel
+Status: unknown hold not-installed
+Architecture: ar71xx
+Installed-Size: 2023
+Description:  This driver adds support for the C_CAN/D_CAN chips connected
+ to the PCI bus.

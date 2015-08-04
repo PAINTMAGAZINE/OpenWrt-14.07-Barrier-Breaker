@@ -1,0 +1,9 @@
+Package: iptables-mod-psd
+Version: 2.3-1
+Depends: libc, iptables, kmod-ipt-psd
+Source: package/network/utils/xtables-addons
+Section: net
+Maintainer: Jo-Philipp Wich <jow@openwrt.org>
+Architecture: ar71xx
+Installed-Size: 1995
+Description:  psd iptables extension

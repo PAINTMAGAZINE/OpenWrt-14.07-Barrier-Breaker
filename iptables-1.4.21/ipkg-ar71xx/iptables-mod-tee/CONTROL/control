@@ -1,0 +1,12 @@
+Package: iptables-mod-tee
+Version: 1.4.21-1
+Depends: libc, iptables, kmod-ipt-tee
+Source: package/network/utils/iptables
+Section: net
+Architecture: ar71xx
+Installed-Size: 1753
+Description:  TEE iptables extensions.
+ 
+ Targets:
+ - TEE
+ 
