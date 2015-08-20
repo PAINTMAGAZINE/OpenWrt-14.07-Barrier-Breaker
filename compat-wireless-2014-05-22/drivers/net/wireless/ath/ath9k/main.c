@@ -421,7 +421,6 @@ static void ath_node_attach(struct ath_softc *sc, struct ieee80211_sta *sta,
 {
 	struct ath_node *an;
 	an = (struct ath_node *)sta->drv_priv;
-	// This is what I want.
 	printk("Daekyeong: ath_node_attach()\n");
 
 	an->sc = sc;
@@ -839,6 +838,18 @@ static void ath9k_tx(struct ieee80211_hw *hw,
 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
 	unsigned long flags;
 
+	// Daekyeong: WARNNING: control->sta == NULL
+	/*
+	if(ieee80211_is_data_present(hdr->frame_control)) {
+		//u8 *addr = control->sta->addr;
+		printk("Daekyeong: ieee80211_is_data() == true\n");
+		printk("Daekyeong: control=%p\n", control);
+		printk("Daekyeong: control->sta=%p\n", control->sta);
+		//printk("Daekyeong: ath9k_tx(): addr=%#4x %#4x %#4x %#4x %#4x %#4x\n",
+		//	control->sta->addr[0], control->sta->addr[1], control->sta->addr[2],
+		//	control->sta->addr[3], control->sta->addr[4], control->sta->addr[5]); 
+	}
+	*/
 	if (sc->ps_enabled) {
 		/*
 		 * mac80211 does not set PM field for normal data frames, so we

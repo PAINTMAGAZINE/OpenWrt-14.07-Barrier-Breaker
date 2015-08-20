@@ -352,7 +352,7 @@ static int ar9003_hw_proc_txdesc(struct ath_hw *ah, void *ds,
 {
 	struct ar9003_txs *ads;
 	u32 status;
-
+	//printk("Daekyeon: ar9003_hw_proc_txdesc()\n");
 	ads = &ah->ts_ring[ah->ts_tail];
 
 	status = ACCESS_ONCE(ads->status8);
@@ -587,7 +587,9 @@ void ath9k_hw_setup_statusring(struct ath_hw *ah, void *ts_start,
 	ah->ts_paddr_end = ts_paddr_start + (size * sizeof(struct ar9003_txs));
 	ah->ts_size = size;
 	ah->ts_ring = (struct ar9003_txs *) ts_start;
-
+	//printk("Daekyeong: tx_paddr_start=%#x, tx_paddr_end=%#x, ts_size=%u, ts_ring=%p\n",
+	//	ah->ts_paddr_start, ah->ts_paddr_end, ah->ts_size, ah->ts_ring);
+	
 	ath9k_hw_reset_txstatus_ring(ah);
 }
 EXPORT_SYMBOL(ath9k_hw_setup_statusring);

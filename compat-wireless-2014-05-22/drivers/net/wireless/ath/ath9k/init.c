@@ -190,15 +190,17 @@ int ath_descdma_setup(struct ath_softc *sc, struct ath_descdma *dd,
 	u8 *ds;
 	int i, bsize, desc_len;
 
+	//printk("Daekyeong: %s DMA: %u buffers %u desc/buf\n",
+	//	name, nbuf, ndesc);
 	ath_dbg(common, CONFIG, "%s DMA: %u buffers %u desc/buf\n",
 		name, nbuf, ndesc);
 
 	INIT_LIST_HEAD(head);
 
 	if (is_tx)
-		desc_len = sc->sc_ah->caps.tx_desc_len;
+		desc_len = sc->sc_ah->caps.tx_desc_len; // Daekyeong: 128
 	else
-		desc_len = sizeof(struct ath_desc);
+		desc_len = sizeof(struct ath_desc); // Daekyeong: 100
 
 	/* ath_desc must be a multiple of DWORDs */
 	if ((desc_len % 4) != 0) {
@@ -208,16 +210,18 @@ int ath_descdma_setup(struct ath_softc *sc, struct ath_descdma *dd,
 	}
 
 	dd->dd_desc_len = desc_len * nbuf * ndesc;
+	//printk("Daekyeong: %s dd_desc_len=%d\n", name, dd->dd_desc_len);
 
 	/*
 	 * Need additional DMA memory because we can't use
 	 * descriptors that cross the 4K page boundary. Assume
 	 * one skipped descriptor per 4K page.
 	 */
-	if (!(sc->sc_ah->caps.hw_caps & ATH9K_HW_CAP_4KB_SPLITTRANS)) {
+	if (!(sc->sc_ah->caps.hw_caps & ATH9K_HW_CAP_4KB_SPLITTRANS)) { // Daekyeong: will be false
 		u32 ndesc_skipped =
 			ATH_DESC_4KB_BOUND_NUM_SKIPPED(dd->dd_desc_len);
 		u32 dma_len;
+		//printk("Daekyeong: !(sc->sc_ah->caps.hw_caps & ATH9K_HW_CAP_4KB_SPLITTRANS) == true\n");
 
 		while (ndesc_skipped) {
 			dma_len = ndesc_skipped * desc_len;
@@ -233,26 +237,30 @@ int ath_descdma_setup(struct ath_softc *sc, struct ath_descdma *dd,
 	if (!dd->dd_desc)
 		return -ENOMEM;
 
-	ds = (u8 *) dd->dd_desc;
+	ds = (u8 *) dd->dd_desc; // Daekyeong: virtual addr
+	//printk("Daekyeong: %s DMA map: %p (%u) -> %llx (%u)\n",
+	//	name, ds, (u32) dd->dd_desc_len,
+	//	ito64(dd->dd_desc_paddr), (u32) dd->dd_desc_len);
 	ath_dbg(common, CONFIG, "%s DMA map: %p (%u) -> %llx (%u)\n",
 		name, ds, (u32) dd->dd_desc_len,
 		ito64(dd->dd_desc_paddr), /*XXX*/(u32) dd->dd_desc_len);
 
 	/* allocate buffers */
 	if (is_tx) {
-		struct ath_buf *bf;
+		struct ath_buf *bf; // Daekyeong: will be added to txbuf
 
 		bsize = sizeof(struct ath_buf) * nbuf;
 		bf = devm_kzalloc(sc->dev, bsize, GFP_KERNEL);
 		if (!bf)
 			return -ENOMEM;
+		//printk("Daekyeong: buffer size, bsize=%d\n", bsize);
 
 		for (i = 0; i < nbuf; i++, bf++, ds += (desc_len * ndesc)) {
-			bf->bf_desc = ds;
-			bf->bf_daddr = DS2PHYS(dd, ds);
+			bf->bf_desc = ds; // Daekyeong: virtual addr
+			bf->bf_daddr = DS2PHYS(dd, ds); // Daekyeong: Physical addr
 
 			if (!(sc->sc_ah->caps.hw_caps &
-				  ATH9K_HW_CAP_4KB_SPLITTRANS)) {
+				  ATH9K_HW_CAP_4KB_SPLITTRANS)) { // Daekyeong: will be false
 				/*
 				 * Skip descriptor addresses which can cause 4KB
 				 * boundary crossing (addr + length) with a 32 dword
@@ -270,9 +278,10 @@ int ath_descdma_setup(struct ath_softc *sc, struct ath_descdma *dd,
 			}
 			list_add_tail(&bf->list, head);
 		}
-	} else {
+	} else { // Daekyeong: is_rx
 		struct ath_rxbuf *bf;
-
+		
+		//printk("Daekyeong: allocate rx buffer\n");
 		bsize = sizeof(struct ath_rxbuf) * nbuf;
 		bf = devm_kzalloc(sc->dev, bsize, GFP_KERNEL);
 		if (!bf)
@@ -308,7 +317,7 @@ int ath_descdma_setup(struct ath_softc *sc, struct ath_descdma *dd,
 static int ath9k_init_queues(struct ath_softc *sc)
 {
 	int i = 0;
-	printk("Daekyeong: ath9k_init_queues()\n");
+	//printk("Daekyeong: ath9k_init_queues()\n");
 	sc->beacon.beaconq = ath9k_hw_beaconq_setup(sc->sc_ah);
 	sc->beacon.cabq = ath_txq_setup(sc, ATH9K_TX_QUEUE_CAB, 0);
 	ath_cabq_update(sc);
@@ -317,7 +326,7 @@ static int ath9k_init_queues(struct ath_softc *sc)
 
 	for (i = 0; i < IEEE80211_NUM_ACS; i++) {
 		sc->tx.txq_map[i] = ath_txq_setup(sc, ATH9K_TX_QUEUE_DATA, i);
-		sc->tx.txq_map[i]->mac80211_qnum = i;
+		sc->tx.txq_map[i]->mac80211_qnum = i; // ath_txq_setup() will change this val.
 		sc->tx.txq_max_pending[i] = ATH_MAX_QDEPTH;
 	}
 	return 0;
@@ -782,12 +791,15 @@ static void ath_get_initial_entropy(struct ath_softc *sc)
 {
 	struct ath_hw *ah = sc->sc_ah;
 	char buf[256];
-
+	//printk("Daekyeong: in ath_get_initial_entropy\n");
 	/* reuse last channel initialized by the tx power test */
 	ath9k_hw_reset(ah, ah->curchan, NULL, false);
+	//printk("Daekyeong: \tath9k_hw_reset done!\n");
 
 	ath9k_hw_get_adc_entropy(ah, buf, sizeof(buf));
+	//printk("Daekyeong: \tath9k_hw_get_adc_entropy doen!\n");
 	add_device_randomness(buf, sizeof(buf));
+	//printk("Daekyeong: \tadd_device_randomness done!\n");
 }
 
 int ath9k_init_device(u16 devid, struct ath_softc *sc,
@@ -801,12 +813,14 @@ int ath9k_init_device(u16 devid, struct ath_softc *sc,
 
 	/* Bring up device */
 	error = ath9k_init_softc(devid, sc, bus_ops);
+	printk("Daekyeong: ath9k_init_softc done!\n");
 	if (error)
 		return error;
 
 	ah = sc->sc_ah;
 	common = ath9k_hw_common(ah);
 	ath9k_set_hw_capab(sc, hw);
+	printk("Daekyeong: ath9k_set_hw_capab done!\n");
 
 	/* Will be cleared in ath9k_start() */
 	set_bit(ATH_OP_INVALID, &common->op_flags);
@@ -814,6 +828,7 @@ int ath9k_init_device(u16 devid, struct ath_softc *sc,
 	/* Initialize regulatory */
 	error = ath_regd_init(&common->regulatory, sc->hw->wiphy,
 			      ath9k_reg_notifier);
+	printk("Daekyeong: ath_regd_init done!\n");
 	if (error)
 		goto deinit;
 
@@ -821,24 +836,34 @@ int ath9k_init_device(u16 devid, struct ath_softc *sc,
 
 	/* Setup TX DMA */
 	error = ath_tx_init(sc, ATH_TXBUF);
+	printk("Daekyeong: ath_tx_init done!\n");
 	if (error != 0)
 		goto deinit;
 
 	/* Setup RX DMA */
+	//printk("Daekyeong: before ath_rx_init(sc, ATH_RXBUF)\n");
 	error = ath_rx_init(sc, ATH_RXBUF);
-	if (error != 0)
+	printk("Daekyeong: ath_rx_init done!\n");
+	if (error != 0) {
+		//printk("Daekyeong: error in ath_rx_init(sc, ATH_RXBUF)\n");
 		goto deinit;
+	}
+	//printk("Daekyeong: after ath_rx_init(sc, ATH_RXBUF)\n");
 
 	ath9k_init_txpower_limits(sc);
+	printk("Daekyeong: ath9k_init_txpower_limits done!\n");
 
 #ifdef CPTCFG_MAC80211_LEDS
 	/* must be initialized before ieee80211_register_hw */
 	sc->led_default_trigger = ieee80211_create_tpt_led_trigger(sc->hw,
 		IEEE80211_TPT_LEDTRIG_FL_RADIO, ath9k_tpt_blink,
 		ARRAY_SIZE(ath9k_tpt_blink));
+	printk("Daekyeong: ieee80211_create_tpt_led_trigger done!\n");
 #endif
 
-	ath_get_initial_entropy(sc);
+	// Daekyeong: When edit ATH9K_NUM_TX_QUEUES, this function have some problems.
+	ath_get_initial_entropy(sc); 
+	printk("Daekyeong: ath_get_initial_entropy done!\n");
 
 	/* Register with mac80211 */
 	error = ieee80211_register_hw(hw);
@@ -846,6 +871,7 @@ int ath9k_init_device(u16 devid, struct ath_softc *sc,
 		goto rx_cleanup;
 
 	error = ath9k_init_debug(ah);
+	printk("Daekyeong: ath9k_init_debug done!\n");
 	if (error) {
 		ath_err(common, "Unable to create debugfs files\n");
 		goto unregister;
@@ -856,10 +882,13 @@ int ath9k_init_device(u16 devid, struct ath_softc *sc,
 		error = regulatory_hint(hw->wiphy, reg->alpha2);
 		if (error)
 			goto debug_cleanup;
+		printk("Daekyeong: regulatory_hint done!\n");
 	}
 
 	ath_init_leds(sc);
+	printk("Daekyeong: ath_init_leds done!\n");
 	ath_start_rfkill_poll(sc);
+	printk("Daekyeong: ath_start_rfkill_poll done!\n");
 
 	return 0;
 

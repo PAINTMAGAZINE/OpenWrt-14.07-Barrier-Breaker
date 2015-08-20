@@ -296,7 +296,7 @@ int ath9k_hw_setuptxqueue(struct ath_hw *ah, enum ath9k_tx_queue type,
 	struct ath_common *common = ath9k_hw_common(ah);
 	struct ath9k_tx_queue_info *qi;
 	int q;
-
+	// Daekyeong
 	switch (type) {
 	case ATH9K_TX_QUEUE_BEACON:
 		q = ATH9K_NUM_TX_QUEUES - 1;
@@ -317,7 +317,6 @@ int ath9k_hw_setuptxqueue(struct ath_hw *ah, enum ath9k_tx_queue type,
 		ath_err(common, "Invalid TX queue type: %u\n", type);
 		return -1;
 	}
-
 	ath_dbg(common, QUEUE, "Setup TX queue: %u\n", q);
 
 	qi = &ah->txq[q];
@@ -329,7 +328,7 @@ int ath9k_hw_setuptxqueue(struct ath_hw *ah, enum ath9k_tx_queue type,
 	qi->tqi_type = type;
 	qi->tqi_physCompBuf = qinfo->tqi_physCompBuf;
 	(void) ath9k_hw_set_txq_props(ah, q, qinfo);
-
+	
 	return q;
 }
 EXPORT_SYMBOL(ath9k_hw_setuptxqueue);

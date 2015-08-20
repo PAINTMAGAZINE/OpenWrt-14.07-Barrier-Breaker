@@ -1,10 +1,10 @@
 Package: kmod-ip6tables
 Version: 3.10.49-1
-Depends: kernel (=3.10.49-1-a12db3f7d7a1c014986c833de227a672), kmod-ipv6, kmod-ipt-core, kmod-ipt-conntrack
+Depends: kernel (=3.10.49-1-e3b6f32a0e5da7bd4e6940088065fe3b), kmod-ipv6, kmod-ipt-core, kmod-ipt-conntrack
 Source: package/kernel/linux
 License: GPLv2
 Section: kernel
 Status: unknown hold not-installed
 Architecture: ar71xx
-Installed-Size: 18744
+Installed-Size: 21610
 Description:  Netfilter IPv6 firewalling support

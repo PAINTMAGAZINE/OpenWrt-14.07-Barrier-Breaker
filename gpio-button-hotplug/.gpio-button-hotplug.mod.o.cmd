@@ -140,16 +140,6 @@ deps_/home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar
     $(wildcard include/config/broken/rodata.h) \
   include/linux/kern_levels.h \
   include/linux/dynamic_debug.h \
-  include/linux/string.h \
-    $(wildcard include/config/binary/printf.h) \
-  include/uapi/linux/string.h \
-  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/asm/string.h \
-    $(wildcard include/config/cpu/r3000.h) \
-  include/linux/errno.h \
-  include/uapi/linux/errno.h \
-  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/asm/errno.h \
-  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/uapi/asm/errno.h \
-  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/include/uapi/asm-generic/errno-base.h \
   include/uapi/linux/kernel.h \
   /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/include/uapi/linux/sysinfo.h \
   /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/asm/div64.h \
@@ -196,6 +186,11 @@ deps_/home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar
     $(wildcard include/config/nr/cpus.h) \
     $(wildcard include/config/base/small.h) \
   include/linux/bitmap.h \
+  include/linux/string.h \
+    $(wildcard include/config/binary/printf.h) \
+  include/uapi/linux/string.h \
+  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/asm/string.h \
+    $(wildcard include/config/cpu/r3000.h) \
   /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/uapi/asm/cachectl.h \
   /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/asm/mipsregs.h \
     $(wildcard include/config/cpu/vr41xx.h) \
@@ -309,6 +304,11 @@ deps_/home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar
     $(wildcard include/config/have/arch/nodedata/extension.h) \
     $(wildcard include/config/have/bootmem/info/node.h) \
   include/linux/notifier.h \
+  include/linux/errno.h \
+  include/uapi/linux/errno.h \
+  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/asm/errno.h \
+  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/arch/mips/include/uapi/asm/errno.h \
+  /home/daekyeong/openwrt/build_dir/target-mips_34kc_uClibc-0.9.33.2/linux-ar71xx_generic/linux-3.10.49/include/uapi/asm-generic/errno-base.h \
   include/linux/mutex.h \
     $(wildcard include/config/debug/mutexes.h) \
     $(wildcard include/config/mutex/spin/on/owner.h) \

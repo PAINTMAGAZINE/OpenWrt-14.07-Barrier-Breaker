@@ -296,7 +296,6 @@ int ath9k_hw_setuptxqueue(struct ath_hw *ah, enum ath9k_tx_queue type,
 	struct ath_common *common = ath9k_hw_common(ah);
 	struct ath9k_tx_queue_info *qi;
 	int q;
-
 	switch (type) {
 	case ATH9K_TX_QUEUE_BEACON:
 		q = ATH9K_NUM_TX_QUEUES - 1;

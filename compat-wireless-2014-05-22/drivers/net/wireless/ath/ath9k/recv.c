@@ -280,14 +280,16 @@ int ath_rx_init(struct ath_softc *sc, int nbufs)
 	common->rx_bufsize = IEEE80211_MAX_MPDU_LEN / 2 +
 			     sc->sc_ah->caps.rx_status_len;
 
-	if (sc->sc_ah->caps.hw_caps & ATH9K_HW_CAP_EDMA)
-		return ath_rx_edma_init(sc, nbufs);
+	if (sc->sc_ah->caps.hw_caps & ATH9K_HW_CAP_EDMA) {
+		//printk("Daekyeong: before ath_rx_edma_init(sc, nbufs)\n");
+		return ath_rx_edma_init(sc, nbufs); // Daekyeong: this funtion will end here
+	}
 
 	ath_dbg(common, CONFIG, "cachelsz %u rxbufsize %u\n",
 		common->cachelsz, common->rx_bufsize);
 
 	/* Initialize rx descriptors */
-
+	//printk("Daekyeong: before ath_descdma_setup()\n");
 	error = ath_descdma_setup(sc, &sc->rx.rxdma, &sc->rx.rxbuf,
 				  "rx", nbufs, 1, 0);
 	if (error != 0) {
@@ -296,6 +298,7 @@ int ath_rx_init(struct ath_softc *sc, int nbufs)
 			error);
 		goto err;
 	}
+	//printk("Daekyeong: after ath_descdma_setup()\n");
 
 	list_for_each_entry(bf, &sc->rx.rxbuf, list) {
 		skb = ath_rxbuf_alloc(common, common->rx_bufsize,
@@ -321,6 +324,7 @@ int ath_rx_init(struct ath_softc *sc, int nbufs)
 		}
 	}
 	sc->rx.rxlink = NULL;
+	printk("Daekyeong: ath_rx_init() return normally\n");
 err:
 	if (error)
 		ath_rx_cleanup(sc);
@@ -800,6 +804,8 @@ static int ath9k_rx_skb_preprocess(struct ath_softc *sc,
 	struct ieee80211_hdr *hdr;
 	bool discard_current = sc->rx.discard_next;
 
+	static int Daekyeong_cnt = 0;
+
 	/*
 	 * Discard corrupt descriptors which are marked in
 	 * ath_get_next_rx_buf().
@@ -841,8 +847,39 @@ static int ath9k_rx_skb_preprocess(struct ath_softc *sc,
 	if (rx_stats->rs_status & ATH9K_RXERR_CORRUPT_DESC)
 		goto corrupt;
 
+	/*
+	 * Daekyeong: Maybe I can find headers which I modified.
+	 * ah->caps.rx_status_len == 48
+	 * 
+	 * struct ieee80211_hdr {
+	 * 	__le16 frame_control;
+	 * 	__le16 duration_id;
+	 * 	u8 addr1[6];
+	 * 	u8 addr2[6];
+	 * 	u8 addr3[6];
+	 * 	__le16 seq_ctrl;
+	 * 	u8 addr4[6];
+	 * } __packed __aligned(2);
+	 */
 	hdr = (struct ieee80211_hdr *) (skb->data + ah->caps.rx_status_len);
 
+	//Daekyeong_cnt++;
+	//if(Daekyeong_cnt < 0) Daekyeong_cnt = 0;
+
+	if (ieee80211_is_data_present(hdr->frame_control)) {
+	//if(Daekyeong_cnt % 100 == 0) {
+		printk("Daekyeong: ath9k_rx_skb_preprocess(): \
+			\nframe_control=%#06x, duration_id=%#06x, seq_ctrl=%#06x,\
+			\naddr1=%#04x %#04x %#04x %#04x %#04x %#04x, \
+			\naddr2=%#04x %#04x %#04x %#04x %#04x %#04x, \
+			\naddr3=%#04x %#04x %#04x %#04x %#04x %#04x, \
+			\naddr4=%#04x %#04x %#04x %#04x %#04x %#04x\n",
+			(u16)hdr->frame_control, (u16)hdr->duration_id, (u16)hdr->seq_ctrl, 
+			hdr->addr1[0], hdr->addr1[1], hdr->addr1[2], hdr->addr1[3], hdr->addr1[4], hdr->addr1[5], 
+			hdr->addr2[0], hdr->addr2[1], hdr->addr2[2], hdr->addr2[3], hdr->addr2[4], hdr->addr2[5], 
+			hdr->addr3[0], hdr->addr3[1], hdr->addr3[2], hdr->addr3[3], hdr->addr3[4], hdr->addr3[5], 
+			hdr->addr4[0], hdr->addr4[1], hdr->addr4[2], hdr->addr4[3], hdr->addr4[4], hdr->addr4[5]);
+	}
 	ath9k_process_tsf(rx_stats, rx_status, tsf);
 	ath_debug_stat_rx(sc, rx_stats);
 
@@ -989,7 +1026,8 @@ int ath_rx_tasklet(struct ath_softc *sc, int flush, bool hp)
 
 	qtype = hp ? ATH9K_RX_QUEUE_HP : ATH9K_RX_QUEUE_LP;
 
-	tsf = ath9k_hw_gettsf64(ah);
+	// TSF: Time Synchronization Function
+	tsf = ath9k_hw_gettsf64(ah); 
 
 	do {
 		bool decrypt_error = false;
@@ -1018,9 +1056,14 @@ int ath_rx_tasklet(struct ath_softc *sc, int flush, bool hp)
 
 		rxs = IEEE80211_SKB_RXCB(hdr_skb);
 		memset(rxs, 0, sizeof(struct ieee80211_rx_status));
-
+		
+		// Daekyeong: this function will check the header.
 		retval = ath9k_rx_skb_preprocess(sc, hdr_skb, &rs, rxs,
 						 &decrypt_error, tsf);
+		/*
+		 * Daekyeong: if I don't have to handle this packet,
+		 * IMMEDIATELY RETURN.
+		 */
 		if (retval)
 			goto requeue_drop_frag;
 

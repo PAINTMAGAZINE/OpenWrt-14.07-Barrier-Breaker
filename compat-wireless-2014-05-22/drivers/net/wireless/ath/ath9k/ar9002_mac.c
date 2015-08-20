@@ -313,7 +313,7 @@ static int ar9002_hw_proc_txdesc(struct ath_hw *ah, void *ds,
 {
 	struct ar5416_desc *ads = AR5416DESC(ds);
 	u32 status;
-
+	//printk("Daekyeong: ar9002_hw_proc_txdesc()\n");
 	status = ACCESS_ONCE(ads->ds_txstatus9);
 	if ((status & AR_TxDone) == 0)
 		return -EINPROGRESS;

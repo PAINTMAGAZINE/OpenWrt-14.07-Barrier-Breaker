@@ -660,17 +660,21 @@ static void ath_tx_process_buffer(struct ath_softc *sc, struct ath_txq *txq,
 {
 	struct ieee80211_tx_info *info;
 	bool txok, flush;
-
+	//printk("Daekyeong: in ath_tx_process_buffer()\n");
 	txok = !(ts->ts_status & ATH9K_TXERR_MASK);
 	flush = !!(ts->ts_status & ATH9K_TX_FLUSH);
 	txq->axq_tx_inprogress = false;
 
 	txq->axq_depth--;
-	if (bf_is_ampdu_not_probing(bf))
+	if (bf_is_ampdu_not_probing(bf)){
+		//printk("Daekyeong: bf_is_ampdu_not_probing(bf) == true\n");
 		txq->axq_ampdu_depth--;
+	}
 
 	if (!bf_isampdu(bf)) {
+		//printk("Daekyeong: !bf_isampdu(bf) == true\n");
 		if (!flush) {
+			//printk("Daekyeong: !flush == true\n");
 			info = IEEE80211_SKB_CB(bf->bf_mpdu);
 			memcpy(info->control.rates, bf->rates,
 			       sizeof(info->control.rates));
@@ -680,8 +684,12 @@ static void ath_tx_process_buffer(struct ath_softc *sc, struct ath_txq *txq,
 	} else
 		ath_tx_complete_aggr(sc, txq, bf, bf_head, ts, txok);
 
-	if (!flush)
+	if (!flush){
+		//printk("Daekyeong: before ath_txq_schedule()\n");
 		ath_txq_schedule(sc, txq);
+		//printk("Daekyeong: after ath_txq_schedule()\n");
+	}
+	//printk("Daekyeong: return ath_tx_process_buffer()\n");
 }
 
 static bool ath_lookup_legacy(struct ath_buf *bf)
@@ -1625,15 +1633,22 @@ struct ath_txq *ath_txq_setup(struct ath_softc *sc, int qtype, int subtype)
 	 * based intr on the EOSP frames.
 	 */
 	if (ah->caps.hw_caps & ATH9K_HW_CAP_EDMA) {
+		//printk("Daekyeong: ah->caps.hw_caps & ATH9K_HW_CAP_EDMA\n");
 		qi.tqi_qflags = TXQ_FLAG_TXINT_ENABLE;
 	} else {
-		if (qtype == ATH9K_TX_QUEUE_UAPSD)
+		if (qtype == ATH9K_TX_QUEUE_UAPSD){
+			//printk("Daekyeong: qtype == ATH9K_TX_QUEUE_UAPSD\n");
 			qi.tqi_qflags = TXQ_FLAG_TXDESCINT_ENABLE;
-		else
+		}
+		else{
+			//printk("Daekyeong: else\n");
 			qi.tqi_qflags = TXQ_FLAG_TXEOLINT_ENABLE |
 					TXQ_FLAG_TXDESCINT_ENABLE;
+		}
 	}
 	axq_qnum = ath9k_hw_setuptxqueue(ah, qtype, &qi);
+	printk("Daekyeong: q=%d, type=%d, subtype=%d, qflags=%d, priority=%d\n",
+		axq_qnum, qtype, qi.tqi_subtype, qi.tqi_qflags, qi.tqi_priority);
 	if (axq_qnum == -1) {
 		/*
 		 * NB: don't print a message, this happens
@@ -1644,6 +1659,7 @@ struct ath_txq *ath_txq_setup(struct ath_softc *sc, int qtype, int subtype)
 	if (!ATH_TXQ_SETUP(sc, axq_qnum)) {
 		struct ath_txq *txq = &sc->tx.txq[axq_qnum];
 
+		//printk("Daekyeong: ATH_TXQ_SETUP(sc, axq_qnum) == false\n");
 		txq->axq_qnum = axq_qnum;
 		txq->mac80211_qnum = -1;
 		txq->axq_link = NULL;
@@ -1660,6 +1676,7 @@ struct ath_txq *ath_txq_setup(struct ath_softc *sc, int qtype, int subtype)
 		for (i = 0; i < ATH_TXFIFO_DEPTH; i++)
 			INIT_LIST_HEAD(&txq->txq_fifo[i]);
 	}
+	//printk("Daekyeong: normally return\n");
 	return &sc->tx.txq[axq_qnum];
 }
 
@@ -1828,6 +1845,10 @@ void ath_txq_schedule(struct ath_softc *sc, struct ath_txq *txq)
 	rcu_read_lock();
 
 	last_ac = list_entry(txq->axq_acq.prev, struct ath_atx_ac, list);
+//	printk("Daekyeong: last_ac->txq->mac80211_qnum=%d\n",
+//		last_ac->txq->mac80211_qnum);
+//	printk("Daekyeong: last_ac->txq->axq_qnum=%d\n",
+//		last_ac->txq->axq_qnum);
 	while (!list_empty(&txq->axq_acq)) {
 		bool stop = false;
 
@@ -2166,11 +2187,15 @@ int ath_tx_start(struct ieee80211_hw *hw, struct sk_buff *skb,
 	int q;
 	int ret;
 
+	printk("Daekyeong: ath_tx_start()\n");
 	ret = ath_tx_prepare(hw, skb, txctl);
 	if (ret)
 	    return ret;
 
 	hdr = (struct ieee80211_hdr *) skb->data;
+	if(ieee80211_is_data_present(hdr->frame_control)) {
+		printk("Daekyeong: txctl->an->sta=%p \n",txctl->an->sta);
+	}
 	/*
 	 * At this point, the vif, hw_key and sta pointers in the tx control
 	 * info are no longer valid (overwritten by the ath_frame_info data.
@@ -2536,6 +2561,7 @@ void ath_tx_tasklet(struct ath_softc *sc)
 	struct ath_hw *ah = sc->sc_ah;
 	u32 qcumask = ((1 << ATH9K_NUM_TX_QUEUES) - 1) & ah->intr_txqs;
 	int i;
+	printk("Daekyeong: ath_tx_tasklet()\n");
 
 	for (i = 0; i < ATH9K_NUM_TX_QUEUES; i++) {
 		if (ATH_TXQ_SETUP(sc, i) && (qcumask & (1 << i)))
@@ -2554,11 +2580,12 @@ void ath_tx_edma_tasklet(struct ath_softc *sc)
 	struct list_head *fifo_list;
 	int status;
 
+	//printk("Daekyeong: ath_tx_edma_tasklet()\n");
 	for (;;) {
 		if (test_bit(ATH_OP_HW_RESET, &common->op_flags))
 			break;
-
 		status = ath9k_hw_txprocdesc(ah, NULL, (void *)&ts);
+		//printk("Daekyeong: status=%d\n", status);
 		if (status == -EINPROGRESS)
 			break;
 		if (status == -EIO) {
@@ -2568,13 +2595,13 @@ void ath_tx_edma_tasklet(struct ath_softc *sc)
 
 		/* Process beacon completions separately */
 		if (ts.qid == sc->beacon.beaconq) {
+			//printk("Daekyeong: ts.qid == sc->beacon.beaconq\n");
 			sc->beacon.tx_processed = true;
 			sc->beacon.tx_last = !(ts.ts_status & ATH9K_TXERR_MASK);
 
 			ath9k_csa_update(sc);
 			continue;
 		}
-
 		txq = &sc->tx.txq[ts.qid];
 
 		ath_txq_lock(sc, txq);
@@ -2582,6 +2609,8 @@ void ath_tx_edma_tasklet(struct ath_softc *sc)
 		TX_STAT_INC(txq->axq_qnum, txprocdesc);
 
 		fifo_list = &txq->txq_fifo[txq->txq_tailidx];
+		//printk("Daekyeong: txq->txq_tailidx=%d, txq->axq_qnum=%d\n", 
+		//	txq->txq_tailidx, txq->axq_qnum);
 		if (list_empty(fifo_list)) {
 			ath_txq_unlock(sc, txq);
 			return;
@@ -2636,6 +2665,9 @@ static int ath_txstatus_setup(struct ath_softc *sc, int size)
 	if (!dd->dd_desc)
 		return -ENOMEM;
 
+	//printk("Daekyeong: txs DMA map: %p (%u) -> %llx (%u)\n",
+	//	(u8 *) dd->dd_desc, (u32) dd->dd_desc_len,
+	//	ito64(dd->dd_desc_paddr), (u32) dd->dd_desc_len);
 	return 0;
 }
 
@@ -2644,10 +2676,13 @@ static int ath_tx_edma_init(struct ath_softc *sc)
 	int err;
 
 	err = ath_txstatus_setup(sc, ATH_TXSTATUS_RING_SIZE);
-	if (!err)
+	if (!err){
+		//printk("Daekyeong: before ath9k_hw_setup_statusring()\n");
 		ath9k_hw_setup_statusring(sc->sc_ah, sc->txsdma.dd_desc,
 					  sc->txsdma.dd_desc_paddr,
 					  ATH_TXSTATUS_RING_SIZE);
+		//printk("Daekyeong: after ath9k_hw_setup_statusring()\n");
+	}
 
 	return err;
 }
@@ -2660,7 +2695,7 @@ int ath_tx_init(struct ath_softc *sc, int nbufs)
 	spin_lock_init(&sc->tx.txbuflock);
 
 	error = ath_descdma_setup(sc, &sc->tx.txdma, &sc->tx.txbuf,
-				  "tx", nbufs, 1, 1);
+				  "tx", nbufs, 1, 1); // Daekyeong: dd_desc_len==65536
 	if (error != 0) {
 		ath_err(common,
 			"Failed to allocate tx descriptors: %d\n", error);
@@ -2668,7 +2703,7 @@ int ath_tx_init(struct ath_softc *sc, int nbufs)
 	}
 
 	error = ath_descdma_setup(sc, &sc->beacon.bdma, &sc->beacon.bbuf,
-				  "beacon", ATH_BCBUF, 1, 1);
+				  "beacon", ATH_BCBUF, 1, 1); // Daekyeong: dd_desc_len==1024
 	if (error != 0) {
 		ath_err(common,
 			"Failed to allocate beacon descriptors: %d\n", error);
@@ -2678,7 +2713,7 @@ int ath_tx_init(struct ath_softc *sc, int nbufs)
 	INIT_DELAYED_WORK(&sc->tx_complete_work, ath_tx_complete_poll_work);
 
 	if (sc->sc_ah->caps.hw_caps & ATH9K_HW_CAP_EDMA)
-		error = ath_tx_edma_init(sc);
+		error = ath_tx_edma_init(sc); // Daekyeong: dd_desc_len==18432
 
 	return error;
 }
@@ -2709,7 +2744,6 @@ void ath_tx_node_init(struct ath_softc *sc, struct ath_node *an)
 	     acno < IEEE80211_NUM_ACS; acno++, ac++) {
 		ac->sched    = false;
 		ac->clear_ps_filter = true;
-		// Maybe this will decide queue size.
 		ac->txq = sc->tx.txq_map[acno]; 
 		INIT_LIST_HEAD(&ac->tid_q);
 	}
